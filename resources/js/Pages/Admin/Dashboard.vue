@@ -19,7 +19,7 @@
                         </div>
                         <div class="ml-3 flex-1">
                             <div class="text-sm font-medium text-gray-500">Total Pendapatan</div>
-                            <div class="text-lg font-semibold text-gray-900">Rp 12.590.000</div>
+                            <div class="text-lg font-semibold text-gray-900">Rp {{ stats.totalTransaksi }}</div>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                         <div class="ml-3 flex-1">
                             <div class="text-sm font-medium text-gray-500">Total Siswa</div>
                             <div class="flex items-baseline">
-                                <div class="text-lg font-semibold text-gray-900">1,542</div>
+                                <div class="text-lg font-semibold text-gray-900">{{ stats.totalSiswa }}</div>
                                 <!-- <div class="ml-2 text-xs font-medium text-green-600">+12.5%</div> -->
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                         <div class="ml-3 flex-1">
                             <div class="text-sm font-medium text-gray-500">Total Kelas</div>
                             <div class="flex items-baseline">
-                                <div class="text-lg font-semibold text-gray-900">42</div>
+                                <div class="text-lg font-semibold text-gray-900">{{ stats.totalKelas }}</div>
                                 <!-- <div class="ml-2 text-xs font-medium text-green-600">+4.75%</div> -->
                             </div>
                         </div>
@@ -267,18 +267,21 @@ export default {
     components: {
         Head
     },
-    data() {
+
+    props: {
+        totalTransaction: Object,
+        totalStudent: Object,
+        totalClassroom: Object
+    },
+
+    data(props) {
         return {
             // Data untuk grafik dan statistik yang nantinya akan diambil dari API
             stats: {
-                totalTransaksi: 'Rp 12.590.000',
-                pertumbuhanTransaksi: 8.2,
-                totalPengguna: 1542,
-                pertumbuhanPengguna: 12.5,
-                totalSekolah: 42,
-                pertumbuhanSekolah: 4.75,
+                totalTransaksi: props.totalTransaction,
+                totalSiswa: props.totalStudent,
+                totalKelas: props.totalClassroom,
                 pendapatanBulanan: 'Rp 3.240.000',
-                pertumbuhanPendapatan: 5.4
             },
             transaksiTerbaru: [
                 // Nantinya diisi dari API

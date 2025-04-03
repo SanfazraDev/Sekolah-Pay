@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Classroom;
 use App\Models\Student;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,6 +16,16 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Inertia::render('Admin/Dashboard');
+
+        $totalTransaction = Transaction::query()->where('status', 'paid')->where('is_approve', true)->count();
+        $totalStudent = Student::query()->where('status', 'active')->count();
+        $totalClassroom = Classroom::query()->count();
+
+        return Inertia::render('Admin/Dashboard', [
+            'totalTransaction' => $totalTransaction,
+            'totalStudent' => $totalStudent,
+            'totalClassroom' => $totalClassroom
+        ]);
+        
     }
 }
