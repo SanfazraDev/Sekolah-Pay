@@ -14,10 +14,10 @@
     <!-- Sidebar untuk Mobile - muncul dari kiri saat tombol hamburger diklik -->
     <div 
       v-if="sidebarOpen" 
-      class="fixed inset-y-0 left-0 flex flex-col z-40 w-64 bg-blue-800 transform transition ease-in-out duration-300"
+      class="fixed inset-y-0 left-0 flex flex-col z-40 w-64 bg-zinc-800 transform transition ease-in-out duration-300"
     >
       <!-- Header sidebar dengan logo dan tombol tutup -->
-      <div class="h-16 flex items-center justify-between px-4 bg-blue-900">
+      <div class="h-16 flex items-center justify-between px-4 bg-zinc-600">
         <div class="flex items-center">
           <div class="text-white font-bold text-xl">SekolahPay</div>
         </div>
@@ -125,7 +125,7 @@
                 <Link href="/admin/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 hover:text-blue-700" role="menuitem">Profil Saya</Link>
                 <Link href="/admin/pengaturan" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 hover:text-blue-700" role="menuitem">Pengaturan</Link>
                 <!-- <Link href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 hover:text-blue-700" role="menuitem" method="post">Logout</Link> -->
-                <Link href="/logout" class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 hover:text-blue-700" role="menuitem" method="post">Keluar</Link>
+                <Link href="/logout" class="cursor-pointer w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 hover:text-blue-700" role="menuitem" method="post">Keluar</Link>
               </div>
             </div>
           </div>
@@ -135,9 +135,9 @@
       <!-- Area Konten Utama - berisi konten halaman yang dinamis -->
       <main class="flex-1 relative overflow-y-auto focus:outline-none">
         <div class="py-6">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-4">
             <!-- Navigasi breadcrumb -->
-            <div class="mb-4 text-sm text-gray-500">
+            <div class="mb-4 text-sm text-gray-500 mx-2">
               <span v-for="(crumb, index) in breadcrumbs" :key="index">
                 <Link v-if="crumb.url" :href="crumb.url" class="hover:text-blue-600">{{ crumb.name }}</Link>
                 <span v-else>{{ crumb.name }}</span>
@@ -151,7 +151,7 @@
             </div>
 
             <!-- Konten halaman utama (melalui slot) -->
-            <div class="bg-white p-6 rounded-lg shadow">
+            <div class="">
               <slot></slot>
             </div>
           </div>
