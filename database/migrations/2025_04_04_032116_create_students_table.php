@@ -15,13 +15,14 @@ return new class extends Migration
 
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('classroom_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('classroom_id')->constrained();
             $table->string('name');
             $table->string('nisn')->unique();
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('password');
             $table->enum('status', ["active","inactive"])->default("active");
+            $table->string('address')->nullable();
             $table->timestamps();
         });
 

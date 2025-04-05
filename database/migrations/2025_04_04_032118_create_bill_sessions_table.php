@@ -15,12 +15,11 @@ return new class extends Migration
 
         Schema::create('bill_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bill_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('bill_id')->constrained();
             $table->string('title');
             $table->unsignedBigInteger('amount');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
-            $table->softDeletes();
             $table->timestamps();
         });
 

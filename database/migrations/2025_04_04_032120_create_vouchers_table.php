@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('discount_value');
             $table->dateTime('valid_from');
             $table->dateTime('valid_until');
-            $table->softDeletes();
             $table->timestamps();
         });
 

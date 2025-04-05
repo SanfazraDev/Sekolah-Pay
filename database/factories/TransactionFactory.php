@@ -4,12 +4,10 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Bank;
 use App\Models\BillSession;
 use App\Models\Student;
 use App\Models\Transaction;
 use App\Models\User;
-use App\Models\Voucher;
 
 class TransactionFactory extends Factory
 {
@@ -34,9 +32,9 @@ class TransactionFactory extends Factory
             'proof' => fake()->word(),
             'payment_type' => fake()->randomElement(["transfer","cash"]),
             'user_id' => User::factory(),
-            'date_approve' => fake()->dateTime(),
-            'bank_id' => Bank::factory(),
-            'voucher_id' => Voucher::factory(),
+            'date_approve' => fake()->word(),
+            'bank_id' => fake()->word(),
+            'voucher_id' => fake()->word(),
         ];
     }
 }

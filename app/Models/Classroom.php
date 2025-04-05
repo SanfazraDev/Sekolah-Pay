@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Classroom extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +16,6 @@ class Classroom extends Model
      * @var array
      */
     protected $fillable = [
-        'academic_year_id',
         'name',
         'slug',
     ];
@@ -29,11 +27,15 @@ class Classroom extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'academic_year_id' => 'integer',
     ];
 
-    public function academicYear(): BelongsTo
+    public function students(): HasMany
     {
-        return $this->belongsTo(AcademicYear::class);
+        return $this->hasMany(Student::class);
+    }
+
+    public function bills(): HasMany
+    {
+        return $this->hasMany(Bill::class);
     }
 }

@@ -17,7 +17,7 @@ class DashboardController extends Controller
     public function __invoke(Request $request)
     {
 
-        $totalTransaction = Transaction::query()->where('status', 'paid')->where('is_approve', true)->count();
+        $totalTransaction = Transaction::query()->where('status', 'paid')->where('is_approved', true)->count();
         $totalStudent = Student::query()->where('status', 'active')->count();
         $totalClassroom = Classroom::query()->count();
 

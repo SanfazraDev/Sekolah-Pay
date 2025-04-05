@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bill extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +21,6 @@ class Bill extends Model
         'description',
         'academic_year_id',
         'classroom_id',
-        'batch_id',
         'semester',
     ];
 
@@ -34,8 +33,12 @@ class Bill extends Model
         'id' => 'integer',
         'academic_year_id' => 'integer',
         'classroom_id' => 'integer',
-        'batch_id' => 'integer',
     ];
+
+    public function billSessions(): HasMany
+    {
+        return $this->hasMany(BillSession::class);
+    }
 
     public function academicYear(): BelongsTo
     {
@@ -45,10 +48,5 @@ class Bill extends Model
     public function classroom(): BelongsTo
     {
         return $this->belongsTo(Classroom::class);
-    }
-
-    public function batch(): BelongsTo
-    {
-        return $this->belongsTo(Batch::class);
     }
 }

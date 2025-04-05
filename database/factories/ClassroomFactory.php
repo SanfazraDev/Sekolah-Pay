@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\AcademicYear;
 use App\Models\Classroom;
 
 class ClassroomFactory extends Factory
@@ -22,7 +21,6 @@ class ClassroomFactory extends Factory
     public function definition(): array
     {
         return [
-            'academic_year_id' => AcademicYear::factory(),
             'name' => fake()->name(),
             'slug' => fake()->slug(),
         ];
