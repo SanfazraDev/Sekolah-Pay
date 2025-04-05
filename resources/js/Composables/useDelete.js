@@ -7,7 +7,7 @@ export default function useDelete({ deleteUrl = (entity) => '', entityName = 'It
   const selectedEntity = ref(null);
   const showDeleteModal = ref(false);
   const errors = ref({});
-  const toast = useToast(); // masih bisa dipakai buat error toast kalau mau
+  const toast = useToast();
 
   const confirmDelete = (entity) => {
     if (!entity) return;

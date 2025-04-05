@@ -56,7 +56,7 @@ const {
   closeModal,
   deleteEntity: deleteBatch,
 } = useDelete({
-  deleteUrl: (batch) => `/admin/batches/delete/${batch.id}`,
+  deleteUrl: (batch) => `/admin/batches/delete/${batch.slug}`,
   onDeleted: () => {
     if (props.session?.success) {
       toast.success(props.session.success);
@@ -148,7 +148,7 @@ onMounted(() => {
             </table>
             <div class="mt-4 flex justify-between items-center">
                 <div class="text-sm text-gray-700 ms-1">
-                    Menampilkan {{ batches.from }} - {{ batches.to }} dari {{ batches.total }} data
+                    Menampilkan {{ batches.meta.from }} - {{ batches.meta.to }} dari {{ batches.meta.total }} data
                 </div>
                 <Pagination :links="batches.links" align="right" />
             </div>

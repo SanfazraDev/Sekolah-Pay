@@ -21,7 +21,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
                 Route::post('/store', 'store')->name('store');
                 Route::get('/edit/{batch:slug}', 'edit')->name('edit');
                 Route::put('/update/{batch:slug}', 'update')->name('update');
-                Route::delete('/delete/{batch}', 'destroy')->name('destroy');
+                Route::delete('/delete/{batch:slug}', 'destroy')->name('destroy');
             });
         });
 

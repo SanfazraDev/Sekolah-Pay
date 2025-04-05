@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Batch\StoreRequest;
 use App\Http\Requests\Admin\Batch\UpdateRequest;
+use App\Http\Resources\Admin\BatchResource;
 
 class BatchController extends Controller
 {
@@ -24,8 +25,22 @@ class BatchController extends Controller
 
         $batches->appends('search', request('search'));
 
+        // $batches->transform(function($batch) {
+        //     return new BatchResource($batch);
+        // });
+
+        $data = [
+            'data' => BatchResource::collection($batches)->resolve(),
+            'links' => $batches->linkCollection(),
+            'meta' => [
+                'from' => $batches->firstItem(),
+                'to' => $batches->lastItem(),
+                'total' => $batches->total(),
+            ],
+        ];
+
         return Inertia::render('Admin/Batches/Index', [
-            'batches' => $batches
+            'batches' => $data
         ]);
     }
 
