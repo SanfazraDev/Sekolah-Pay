@@ -23,7 +23,7 @@ class BankFactory extends Factory
         return [
             'name' => fake()->name(),
             'account_name' => fake()->word(),
-            'account_number' => fake()->numberBetween(-10000, 10000),
+            'account_number' => fake()->word(),
         ];
     }
 }

@@ -16,12 +16,10 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description')->nullable();
-            $table->foreignId('academic_year_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('classroom_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('batch_id')->constrained()->cascadeOnDelete();
+            $table->string('description')->nullable();
+            $table->foreignId('academic_year_id')->constrained();
+            $table->foreignId('classroom_id')->constrained();
             $table->enum('semester', ["ganjil","genap"])->default("ganjil");
-            $table->softDeletes();
             $table->timestamps();
         });
 

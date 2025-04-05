@@ -5,7 +5,6 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\AcademicYear;
-use App\Models\Batch;
 use App\Models\Bill;
 use App\Models\Classroom;
 
@@ -28,7 +27,6 @@ class BillFactory extends Factory
             'description' => fake()->text(),
             'academic_year_id' => AcademicYear::factory(),
             'classroom_id' => Classroom::factory(),
-            'batch_id' => Batch::factory(),
             'semester' => fake()->randomElement(["ganjil","genap"]),
         ];
     }

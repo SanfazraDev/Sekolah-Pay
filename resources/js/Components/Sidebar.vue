@@ -98,11 +98,11 @@
         </button>
         <div v-if="openMenus.master" class="mt-1 space-y-1 pl-10">
           <Link 
-            href="/admin/master/siswa" 
+            href="/admin/batches/" 
             class="group flex items-center px-3 py-2 text-sm font-medium rounded-md"
-            :class="[isActive('/admin/master/siswa') ? 'bg-blue-900 text-white' : 'text-blue-100 hover:bg-zinc-700']"
+            :class="[isActive('/admin/batches') ? 'bg-zinc-600 text-white' : 'text-blue-100 hover:bg-zinc-700']"
           >
-            Data Siswa
+            Data Angkatan
           </Link>
           <Link 
             href="/admin/master/kelas" 

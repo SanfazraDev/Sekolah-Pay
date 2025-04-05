@@ -71,7 +71,7 @@
         <div class="flex-1 px-4 flex justify-between">
           <!-- Judul halaman -->
           <div class="flex-1 flex items-center">
-            <h1 class="text-lg font-semibold text-gray-800">{{ pageTitle }}</h1>
+            <h1 class="text-lg font-semibold text-gray-800">{{ title }}</h1>
           </div>
           <!-- Area icons notifikasi dan menu profil -->
           <div class="ml-4 flex items-center md:ml-6">
@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, provide } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import SidebarContent from '../Components/Sidebar.vue';
 
@@ -173,21 +173,8 @@ export default {
     SidebarContent // Komponen sidebar yang diimpor dari file terpisah
   },
   
-  // Props yang diterima dari komponen parent
-  props: {
-    title: {
-      type: String,
-      default: 'Dashboard' // Nilai default jika tidak ada nilai yang diberikan
-    },
-    breadcrumbs: {
-      type: Array,
-      default: () => [{ name: 'Dashboard', url: '/admin/dashboard' }] // Nilai default untuk breadcrumbs
-    }
-  },
-  
   // Setup function menggunakan Composition API Vue 3
-  setup(props) {
-
+  setup() {
     // Reactive state dengan ref
     const sidebarOpen = ref(false); // State untuk sidebar (terbuka/tertutup)
     const profileDropdownOpen = ref(false); // State untuk dropdown profil
@@ -196,10 +183,13 @@ export default {
     // Mengakses Inertia shared data/props
     const page = usePage();
     
+    // State reaktif untuk judul dan breadcrumbs dinamis
+    const title = ref('Dashboard');
+    const breadcrumbs = ref([{ name: 'Dashboard', url: '/admin/dashboard' }]);
+    
     // Computed properties
     const user = computed(() => page.props.auth.user); // Data pengguna dari Inertia props
     const status = computed(() => page.props.flash?.status); // Pesan flash/status dari server
-    const pageTitle = computed(() => props.title); // Judul halaman dari props
     
     // Membuat inisial dari nama pengguna (2 huruf pertama)
     const userInitials = computed(() => {
@@ -215,6 +205,19 @@ export default {
     const logout = () => {
       router.post('/logout'); // Memanggil route logout dengan method POST
     };
+    
+    // Method untuk mengupdate judul dan breadcrumbs
+    const setTitle = (newTitle) => {
+      title.value = newTitle;
+    };
+    
+    const setBreadcrumbs = (newBreadcrumbs) => {
+      breadcrumbs.value = newBreadcrumbs;
+    };
+    
+    // Menyediakan method ini ke komponen anak
+    provide('setTitle', setTitle);
+    provide('setBreadcrumbs', setBreadcrumbs);
     
     // Fungsi untuk menutup dropdown saat mengklik di luar area dropdown
     const handleClickOutside = (event) => {
@@ -243,7 +246,8 @@ export default {
       userInitials,
       status,
       logout,
-      pageTitle
+      title,
+      breadcrumbs
     };
   }
 };

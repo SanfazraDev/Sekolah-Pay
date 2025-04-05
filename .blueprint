@@ -8,15 +8,15 @@ created:
     - database/factories/BankFactory.php
     - database/factories/VoucherFactory.php
     - database/factories/TransactionFactory.php
-    - database/migrations/2025_04_03_013242_create_batches_table.php
-    - database/migrations/2025_04_03_013243_create_academic_years_table.php
-    - database/migrations/2025_04_03_013244_create_classrooms_table.php
-    - database/migrations/2025_04_03_013245_create_students_table.php
-    - database/migrations/2025_04_03_013246_create_bills_table.php
-    - database/migrations/2025_04_03_013247_create_bill_sessions_table.php
-    - database/migrations/2025_04_03_013248_create_banks_table.php
-    - database/migrations/2025_04_03_013249_create_vouchers_table.php
-    - database/migrations/2025_04_03_013250_create_transactions_table.php
+    - database/migrations/2025_04_04_032113_create_batches_table.php
+    - database/migrations/2025_04_04_032114_create_academic_years_table.php
+    - database/migrations/2025_04_04_032115_create_classrooms_table.php
+    - database/migrations/2025_04_04_032116_create_students_table.php
+    - database/migrations/2025_04_04_032117_create_bills_table.php
+    - database/migrations/2025_04_04_032118_create_bill_sessions_table.php
+    - database/migrations/2025_04_04_032119_create_banks_table.php
+    - database/migrations/2025_04_04_032120_create_vouchers_table.php
+    - database/migrations/2025_04_04_032121_create_transactions_table.php
     - app/Models/Batch.php
     - app/Models/AcademicYear.php
     - app/Models/Classroom.php
@@ -27,13 +27,12 @@ created:
     - app/Models/Voucher.php
     - app/Models/Transaction.php
 models:
-    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, two_factor_secret: 'text nullable', two_factor_recovery_codes: 'text nullable', two_factor_confirmed_at: 'timestamp nullable', remember_token: 'string:100 nullable' }
-    Batch: { title: string, slug: 'string, unique' }
-    AcademicYear: { title: 'string, unique' }
-    Classroom: { academic_year_id: foreign, name: string, slug: 'string, unique' }
-    Student: { classroom_id: foreign, name: string, nisn: 'bigInteger, unique', email: 'string, unique', phone: 'string, nullable', password: string, status: 'enum:active,inactive' }
-    Bill: { title: string, description: 'text, nullable', academic_year_id: foreign, classroom_id: foreign, batch_id: foreign, semester: 'enum:ganjil,genap' }
-    BillSession: { bill_id: foreign, title: string, amount: integer, start_time: datetime, end_time: datetime }
-    Bank: { name: string, account_name: string, account_number: integer }
-    Voucher: { code: string, discount_type: 'enum:persen,fixed', discount_value: integer, valid_from: datetime, valid_until: datetime }
-    Transaction: { bill_session_id: foreign, student_id: foreign, total: integer, status: 'enum:paid,unpaid', payment_date: datetime, proof: string, payment_type: 'enum:transfer,cash', user_id: foreign, date_approve: datetime, bank_id: foreign, voucher_id: foreign }
+    Batch: { title: string, slug: 'string, unique', relationships: { hasMany: Bill } }
+    AcademicYear: { title: 'string, unique', relationships: { hasMany: Bill } }
+    Classroom: { name: string, slug: 'string, unique', relationships: { hasMany: 'Student, Bill' } }
+    Student: { classroom_id: foreign, name: string, nisn: 'string, unique', email: 'string, unique', phone: 'string, nullable', password: string, status: 'enum:active,inactive', relationships: { hasMany: Transaction } }
+    Bill: { title: string, description: 'text, nullable', academic_year_id: foreign, classroom_id: foreign, semester: 'enum:ganjil,genap', relationships: { hasMany: BillSession } }
+    BillSession: { bill_id: foreign, title: string, amount: integer, start_time: datetime, end_time: datetime, relationships: { hasMany: Transaction } }
+    Bank: { name: string, account_name: string, account_number: string, relationships: { hasMany: Transaction } }
+    Voucher: { code: string, discount_type: 'enum:persen,fixed', discount_value: integer, valid_from: datetime, valid_until: datetime, relationships: { hasMany: Transaction } }
+    Transaction: { bill_session_id: foreign, student_id: foreign, total: integer, status: 'enum:paid,unpaid', payment_date: datetime, proof: 'string, nullable', payment_type: 'enum:transfer,cash', user_id: foreign, date_approve: 'datetime, nullable', bank_id: 'foreign, nullable', voucher_id: 'foreign, nullable' }

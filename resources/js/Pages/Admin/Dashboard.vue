@@ -269,9 +269,9 @@ export default {
     },
 
     props: {
-        totalTransaction: Object,
-        totalStudent: Object,
-        totalClassroom: Object
+        totalTransaction: Number,
+        totalStudent: Number,
+        totalClassroom: Number
     },
 
     data(props) {

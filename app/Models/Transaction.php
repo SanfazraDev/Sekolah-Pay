@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +27,6 @@ class Transaction extends Model
         'date_approve',
         'bank_id',
         'voucher_id',
-        'is_approve'
     ];
 
     /**
@@ -42,10 +40,6 @@ class Transaction extends Model
         'student_id' => 'integer',
         'payment_date' => 'datetime',
         'user_id' => 'integer',
-        'date_approve' => 'datetime',
-        'bank_id' => 'integer',
-        'voucher_id' => 'integer',
-        'is_approve' => 'boolean'
     ];
 
     public function billSession(): BelongsTo
@@ -61,15 +55,5 @@ class Transaction extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function bank(): BelongsTo
-    {
-        return $this->belongsTo(Bank::class);
-    }
-
-    public function voucher(): BelongsTo
-    {
-        return $this->belongsTo(Voucher::class);
     }
 }
