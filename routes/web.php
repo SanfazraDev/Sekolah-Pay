@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AcademicYearController;
 use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,17 @@ Route::prefix('admin')->name('admin.')->group(function() {
                 Route::get('/edit/{academicYear:slug}', 'edit')->name('edit');
                 Route::put('/update/{academicYear:slug}', 'update')->name('update');
                 Route::delete('/delete/{academicYear:slug}', 'destroy')->name('destroy');
+            });
+        });
+
+        Route::prefix('classrooms')->name('classrooms.')->group(function() {
+            Route::controller(ClassroomController::class)->group(function() {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/store', 'store')->name('store');
+                Route::get('/edit/{classroom:slug}', 'edit')->name('edit');
+                Route::put('/update/{classroom:slug}', 'update')->name('update');
+                Route::delete('/delete/{classroom:slug}', 'destroy')->name('destroy');
             });
         });
 

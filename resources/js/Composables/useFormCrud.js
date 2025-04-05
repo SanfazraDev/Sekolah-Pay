@@ -17,9 +17,12 @@ export function useFormCrud(initialValues = {}) {
         form[method](url, {
             ...extra,
             onSuccess: (page) => {
-                const msg = page.props?.session?.success
-                if (msg) toast.success(msg)
+                const success = page.props?.session?.success;
+                const error = page.props?.session?.error;
 
+                if (success) toast.success(success);
+                if (error) toast.error(error);
+                
                 if (resetOnSuccess) {
                     form.reset()
                 }
