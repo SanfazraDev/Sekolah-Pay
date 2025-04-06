@@ -118,6 +118,13 @@
           >
             Data Kelas
           </Link>
+          <Link 
+            href="/admin/students/" 
+            class="group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+            :class="[isActive('/admin/students') ? 'bg-zinc-600 text-white' : 'text-blue-100 hover:bg-zinc-700']"
+          >
+            Data Siswa
+          </Link>
         </div>
       </div>
       
