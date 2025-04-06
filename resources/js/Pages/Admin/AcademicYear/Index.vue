@@ -49,12 +49,12 @@ useDebounce(search, handleSearch, 500);
 // Composable delete
 const {
   isLoading,
-  selectedEntity: selectedBatch,
+  selectedEntity: selectedAcademicYear,
   showDeleteModal,
   errors: deleteErrors,
   confirmDelete,
   closeModal,
-  deleteEntity: deleteBatch,
+  deleteEntity: deleteAcademicYear,
 } = useDelete({
   deleteUrl: (batch) => `/admin/academic-years/delete/${batch.slug}`,
   onDeleted: () => {
@@ -89,7 +89,7 @@ onMounted(() => {
                         <input 
                             type="text" 
                             v-model="search" 
-                            placeholder="Cari angkatan..." 
+                            placeholder="Cari Tahun Ajaran..." 
                             class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <button class="absolute right-3 top-2.5 text-gray-500">
@@ -161,7 +161,7 @@ onMounted(() => {
                     <h3 class="text-lg font-semibold text-red-600">Konfirmasi Hapus</h3>
                 </div>
                 <div class="p-6">
-                    <p class="text-gray-700">Apakah Anda yakin ingin menghapus angkatan <span class="font-semibold">{{ selectedBatch?.title || '' }}</span>?</p>
+                    <p class="text-gray-700">Apakah Anda yakin ingin menghapus angkatan <span class="font-semibold">{{ selectedAcademicYear?.title || '' }}</span>?</p>
                     <p class="text-red-500 text-sm mt-2">Tindakan ini tidak dapat dibatalkan.</p>
                 </div>
                 <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-2 rounded-b-lg">
@@ -172,7 +172,7 @@ onMounted(() => {
                         Batal
                     </button>
                     <button 
-                        @click="deleteBatch" 
+                        @click="deleteAcademicYear" 
                         class="cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                         :disabled="isLoading"
                     >

@@ -17,7 +17,7 @@ defineOptions({
 // Props
 const props = defineProps({
   auth: Object,
-  classrooms: Object,
+  students: Object,
   errors: Object,
   session: Object,
 });
@@ -34,11 +34,11 @@ const toast = useToast();
 
 // Handle search
 const handleSearch = () => {
-  router.get('/admin/classrooms', { search: search.value },
+  router.get('/admin/students', { search: search.value },
     {
       preserveState: true,
       preserveScroll: true,
-      only: ['classrooms'],
+      only: ['students'],
     }
   );
 };
@@ -49,14 +49,14 @@ useDebounce(search, handleSearch, 500);
 // Composable delete
 const {
   isLoading,
-  selectedEntity: selectedClassroom,
+  selectedEntity: selectedStudent,
   showDeleteModal,
   errors: deleteErrors,
   confirmDelete,
   closeModal,
-  deleteEntity: deleteClassroom,
+  deleteEntity: deleteBatch,
 } = useDelete({
-  deleteUrl: (classroom) => `/admin/classrooms/delete/${classroom.slug}`,
+  deleteUrl: (student) => `/admin/students/delete/${student.id}`,
   onDeleted: () => {
     if (props.session?.success) {
       toast.success(props.session.success);
@@ -68,28 +68,28 @@ const {
 
 // Lifecycle
 onMounted(() => {
-  setTitle('Kelas');
-  setBreadcrumbs([{ name: 'Kelas', url: '/admin/classrooms' }]);
+  setTitle('Siswa');
+  setBreadcrumbs([{ name: 'Siswa', url: '/admin/students' }]);
 });
 
 </script>
 
 <template>
     <Head>
-        <title>Kelas - SekolahPay</title>
+        <title>Siswa - SekolahPay</title>
     </Head>
     
     <div class="container mx-auto px-4 py-6">
         <!-- Header Section -->
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">Daftar Kelas</h1>
+            <h1 class="text-2xl font-bold">Daftar Siswa</h1>
             <div class="flex space-x-2">
                 <form @submit.prevent="handleSearch">
                     <div class="relative">
                         <input 
                             type="text" 
                             v-model="search" 
-                            placeholder="Cari Kelas..." 
+                            placeholder="Cari Nama Siswa..." 
                             class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <button class="absolute right-3 top-2.5 text-gray-500">
@@ -99,11 +99,11 @@ onMounted(() => {
                         </button>
                     </div>
                 </form>
-                <Link href="/admin/classrooms/create" class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center">
+                <Link href="/admin/students/create" class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    Tambah Kelas
+                    Tambah Siswa
                 </Link>
             </div>
         </div>
@@ -114,28 +114,35 @@ onMounted(() => {
                 <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NISN</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
+
+                <!-- {{ props.students }} -->
+
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-if="classrooms.data.length == 0">
-                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada data Kelas</td>
+                    <tr v-if="students.data.length == 0">
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada data Siswa</td>
                     </tr>
-                    <tr v-for="(classroom, index) in classrooms.data" :key="classroom?.id || index" class="hover:bg-gray-50">
+                    <tr v-for="(student, index) in students.data" :key="student?.id || index" class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ index + 1 }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ classroom?.name || '-' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ student?.nisn || '-' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ student?.name || '-' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ student?.classroom.name || '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
-                                <Link :href="`/admin/classrooms/edit/${classroom.slug}`" class="cursor-pointer text-blue-600 hover:text-blue-900 bg-blue-100 p-2 rounded" :disabled="!classroom">
+                                <Link :href="`/admin/students/edit/${student.id}`" class="cursor-pointer text-blue-600 hover:text-blue-900 bg-blue-100 p-2 rounded" :disabled="!student">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
                                 </Link>
                                 <button 
-                                    @click="classroom && confirmDelete(classroom)" 
+                                    @click="student && confirmDelete(student)" 
                                     class="cursor-pointer text-red-600 hover:text-red-900 bg-red-100 p-2 rounded"
-                                    :disabled="!classroom"
+                                    :disabled="!student"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -148,9 +155,9 @@ onMounted(() => {
             </table>
             <div class="mt-4 flex justify-between items-center">
                 <div class="text-sm text-gray-700 ms-1">
-                    Menampilkan {{ classrooms.meta.from }} - {{ classrooms.meta.to }} dari {{ classrooms.meta.total }} data
+                    Menampilkan {{ students.meta.from }} - {{ students.meta.to }} dari {{ students.meta.total }} data
                 </div>
-                <Pagination :links="classrooms.links" align="right" />
+                <Pagination :links="students.links" align="right" />
             </div>
         </div>
 
@@ -161,7 +168,7 @@ onMounted(() => {
                     <h3 class="text-lg font-semibold text-red-600">Konfirmasi Hapus</h3>
                 </div>
                 <div class="p-6">
-                    <p class="text-gray-700">Apakah Anda yakin ingin menghapus kelas <span class="font-semibold">{{ selectedClassroom?.name || '' }}</span>?</p>
+                    <p class="text-gray-700">Apakah Anda yakin ingin menghapus Siswa <span class="font-semibold">{{ selectedStudent?.name || '' }} ({{ selectedStudent?.nisn }})</span>?</p>
                     <p class="text-red-500 text-sm mt-2">Tindakan ini tidak dapat dibatalkan.</p>
                 </div>
                 <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-2 rounded-b-lg">
@@ -172,7 +179,7 @@ onMounted(() => {
                         Batal
                     </button>
                     <button 
-                        @click="deleteClassroom" 
+                        @click="deleteBatch" 
                         class="cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                         :disabled="isLoading"
                     >

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AcademicYearController;
 use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -46,6 +47,18 @@ Route::prefix('admin')->name('admin.')->group(function() {
                 Route::get('/edit/{classroom:slug}', 'edit')->name('edit');
                 Route::put('/update/{classroom:slug}', 'update')->name('update');
                 Route::delete('/delete/{classroom:slug}', 'destroy')->name('destroy');
+            });
+        });
+
+        Route::prefix('students')->name('students.')->group(function() {
+            Route::controller(StudentController::class)->group(function() {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/store', 'store')->name('store');
+                Route::get('/show/{student}', 'edit')->name('show');
+                Route::get('/edit/{student}', 'edit')->name('edit');
+                Route::put('/update/{student}', 'update')->name('update');
+                Route::delete('/delete/{student}', 'destroy')->name('destroy');
             });
         });
 
