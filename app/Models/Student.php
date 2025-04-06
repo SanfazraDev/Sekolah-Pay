@@ -24,6 +24,7 @@ class Student extends Model
         'phone',
         'password',
         'status',
+        'address',
     ];
 
     /**

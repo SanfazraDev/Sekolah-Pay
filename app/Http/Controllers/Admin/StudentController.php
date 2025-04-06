@@ -67,6 +67,7 @@ class StudentController extends Controller
                 'phone' => $request->input('phone'),
                 'password' => bcrypt($request->input('password')),
                 'status' => $request->input('status'),
+                'address' => $request->input('address'),
             ]);
             // $student->assignRole('student');
             DB::commit();
@@ -123,6 +124,7 @@ class StudentController extends Controller
                 'email' => $request->input('email'),
                 'phone' => $request->input('phone'),
                 'status' => $request->input('status'),
+                'address' => $request->input('address'),
             ]);
             DB::commit();
 
